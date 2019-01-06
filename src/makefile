@@ -1,0 +1,21 @@
+ifeq ($(DEBUG), true)
+	PARAM = -ggdb3 -Wall -std=c++11
+else
+	PARAM = -O3 -DNDEBUG -std=c++11
+endif
+
+LINKPARAM = -lopencv_core -lopencv_imgproc -lopencv_imgcodecs -lopencv_highgui
+
+seamCarving : main.o ui.o
+	g++ main.o ui.o -o seamCarving $(PARAM) $(LINKPARAM)
+
+main.o : main.cpp ui.h
+	g++ main.cpp -c $(PARAM)
+
+ui.o : ui.cpp ui.h
+	g++ ui.cpp -c $(PARAM)
+
+clean :
+	-rm *.o seamCarving
+
+.PHONY : clean
